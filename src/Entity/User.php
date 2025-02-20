@@ -52,6 +52,12 @@ class User
     #[ORM\ManyToMany(targetEntity: Article::class, mappedBy: 'Liked')]
     private Collection $Liked;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $Phone_number = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $Delivery_address = null;
+
     public function __construct()
     {
         $this->Carts = new ArrayCollection();
@@ -216,6 +222,30 @@ class User
         if ($this->Liked->removeElement($liked)) {
             $liked->removeLiked($this);
         }
+
+        return $this;
+    }
+
+    public function getPhoneNumber(): ?int
+    {
+        return $this->Phone_number;
+    }
+
+    public function setPhoneNumber(?int $Phone_number): static
+    {
+        $this->Phone_number = $Phone_number;
+
+        return $this;
+    }
+
+    public function getDeliveryAddress(): ?string
+    {
+        return $this->Delivery_address;
+    }
+
+    public function setDeliveryAddress(?string $Delivery_address): static
+    {
+        $this->Delivery_address = $Delivery_address;
 
         return $this;
     }
