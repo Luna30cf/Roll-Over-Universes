@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block content %}
+    <h1>Bienvenue sur notre site</h1>
+    <ul>
+        <li><a href="{{ path('product_list') }}">Voir les produits</a></li>
+        <li><a href="{{ path('cart') }}">Voir mon panier</a></li>
+        <li><a href="{{ path('checkout') }}">Aller au paiement</a></li>
+        <li><a href="{{ path('payment_confirmation') }}">Vérifier mon paiement</a></li>
+        <li><a href="{{ path('account') }}">Gérer mon compte</a></li>
+    </ul>
+{% endblock %}
