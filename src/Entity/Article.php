@@ -48,9 +48,16 @@ class Article
     #[ORM\JoinColumn(nullable: false)]
     private ?Author $Author = null;
 
+    /**
+     * @var Collection<int, User>
+     */
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'Liked')]
+    private Collection $Liked;
+
     public function __construct()
     {
         $this->Theme = new ArrayCollection();
+        $this->Liked = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -174,6 +181,30 @@ class Article
     public function setAuthor(?Author $Author): static
     {
         $this->Author = $Author;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getLiked(): Collection
+    {
+        return $this->Liked;
+    }
+
+    public function addLiked(User $liked): static
+    {
+        if (!$this->Liked->contains($liked)) {
+            $this->Liked->add($liked);
+        }
+
+        return $this;
+    }
+
+    public function removeLiked(User $liked): static
+    {
+        $this->Liked->removeElement($liked);
 
         return $this;
     }

@@ -46,10 +46,17 @@ class User
     #[ORM\OneToMany(targetEntity: Invoice::class, mappedBy: 'User')]
     private Collection $Invoices;
 
+    /**
+     * @var Collection<int, Article>
+     */
+    #[ORM\ManyToMany(targetEntity: Article::class, mappedBy: 'Liked')]
+    private Collection $Liked;
+
     public function __construct()
     {
         $this->Carts = new ArrayCollection();
         $this->Invoices = new ArrayCollection();
+        $this->Liked = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -181,6 +188,33 @@ class User
             if ($invoice->getUser() === $this) {
                 $invoice->setUser(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Article>
+     */
+    public function getLiked(): Collection
+    {
+        return $this->Liked;
+    }
+
+    public function addLiked(Article $liked): static
+    {
+        if (!$this->Liked->contains($liked)) {
+            $this->Liked->add($liked);
+            $liked->addLiked($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLiked(Article $liked): static
+    {
+        if ($this->Liked->removeElement($liked)) {
+            $liked->removeLiked($this);
         }
 
         return $this;
