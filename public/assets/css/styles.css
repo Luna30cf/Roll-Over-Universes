@@ -14,6 +14,13 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'LilitaOne';
+    src: url('../fonts/LilitaOne-Regular.ttf');
+    font-weight: bold;
+    font-style: normal;
+}
+
 body{
     margin: 0;
     padding: 0;
@@ -41,6 +48,8 @@ body{
 
     display: grid;
     grid-template-columns: 23fr 50fr 23fr;
+
+    z-index: 999999;
 }
 
 
@@ -66,7 +75,7 @@ body{
 
     display: grid;
     grid-template-columns: 7fr 92fr;
-    padding: 0.25vh;
+    padding: 0.5vh;
 
     box-sizing: border-box;
 
@@ -87,8 +96,8 @@ body{
     align-items: center;
     align-self: flex-start;
 
-    width: 8vh;
-    height: 8vh;
+    width: 7.5vh;
+    height: 7.5vh;
 
 }
 
@@ -107,11 +116,20 @@ body{
     user-select: none;
     cursor: pointer;
     align-self: flex-start;
-    height: 8vh;
+    height: 7vh;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 0.5vh;
+    text-decoration: underline;
+    text-decoration-thickness: -10px;
+    transition: 0.3s all;
+}
+
+
+.categorieUnderline{
+    text-decoration-thickness: 2px;
+    transition: 0.3s all;
 }
 
 .navbarIcons{

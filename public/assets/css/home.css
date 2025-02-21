@@ -1,0 +1,76 @@
+.homeBanner{
+    width: 100vw;
+    height: 45vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: -1;
+}
+
+.bannerTitle{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 140px;
+    font-family: "LilitaOne";
+    color: white;
+    background: url("/images/Banner.png");
+    height: 45vh;
+    width: 80vw;
+    border-radius: 32px;
+
+    user-select: none;
+}
+
+
+
+
+.homeGameFront{
+    width: 100vw;
+    height: 37vh;
+
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    margin-top: 15vh;
+
+    box-sizing: border-box;
+    padding: 0 5vw 0 5vw;
+    gap: 6.25vh;
+}
+
+.frontImage{
+    width: 18vw;
+    height: 18vw;
+    background-color: red;
+    border-radius: 100%;
+
+    background-size: cover;
+    transition: 0.3s all;
+}
+
+
+.frontImage:hover{
+    transform: scale(1.1);
+    transition: 0.3s all;
+}
+
+
+.fi1{
+    background: url("../../images/front1.png");
+    background-size: cover;
+}
+.fi2{
+    background: url("../../images/front2-alt.png");
+    background-size: cover;
+    background-position: 0 -10vh;
+}
+.fi3{
+    background: url("../../images/front3.png");
+    background-size: cover;
+    background-position: 0 -10vh;
+}
+.fi4{
+    background: url("../../images/front4.png");
+    background-size: cover;
+}
