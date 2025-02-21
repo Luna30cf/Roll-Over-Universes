@@ -15,22 +15,19 @@ class Cart
     #[ORM\Column]
     private ?int $id = null;
 
-    /**
-     * @var Collection<int, User>
-     */
-    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'Carts')]
-    private Collection $User;
+    #[ORM\OneToOne(inversedBy: 'Carts', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $User = null;
 
     /**
      * @var Collection<int, Article>
      */
     #[ORM\ManyToMany(targetEntity: Article::class)]
-    private Collection $Product;
+    private Collection $Products;
 
     public function __construct()
     {
-        $this->User = new ArrayCollection();
-        $this->Product = new ArrayCollection();
+        $this->Products = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -38,26 +35,14 @@ class Cart
         return $this->id;
     }
 
-    /**
-     * @return Collection<int, User>
-     */
-    public function getUser(): Collection
+    public function getUser(): ?User
     {
         return $this->User;
     }
 
-    public function addUser(User $user): static
+    public function setUser(User $User): static
     {
-        if (!$this->User->contains($user)) {
-            $this->User->add($user);
-        }
-
-        return $this;
-    }
-
-    public function removeUser(User $user): static
-    {
-        $this->User->removeElement($user);
+        $this->User = $User;
 
         return $this;
     }
@@ -65,15 +50,15 @@ class Cart
     /**
      * @return Collection<int, Article>
      */
-    public function getProduct(): Collection
+    public function getProducts(): Collection
     {
-        return $this->Product;
+        return $this->Products;
     }
 
     public function addProduct(Article $product): static
     {
-        if (!$this->Product->contains($product)) {
-            $this->Product->add($product);
+        if (!$this->Products->contains($product)) {
+            $this->Products->add($product);
         }
 
         return $this;
@@ -81,7 +66,7 @@ class Cart
 
     public function removeProduct(Article $product): static
     {
-        $this->Product->removeElement($product);
+        $this->Products->removeElement($product);
 
         return $this;
     }
