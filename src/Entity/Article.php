@@ -54,13 +54,10 @@ class Article
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'Liked')]
     private Collection $Liked;
 
-    
-
     public function __construct()
     {
         $this->Theme = new ArrayCollection();
         $this->Liked = new ArrayCollection();
-        $this->themes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -164,6 +161,18 @@ class Article
         return $this;
     }
 
+    public function getCategory(): ?Categories
+    {
+        return $this->Category;
+    }
+
+    public function setCategory(?Categories $category): static
+    {
+        $this->Category = $category;
+
+        return $this;
+    }
+
     public function getAuthor(): ?Author
     {
         return $this->Author;
@@ -199,6 +208,4 @@ class Article
 
         return $this;
     }
-
-    
 }
