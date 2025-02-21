@@ -1,0 +1,149 @@
+/* public/css/styles.css */
+
+@font-face {
+    font-family: 'Jaldi-Regular';
+    src: url('../fonts/Jaldi-Regular.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Jaldi-Bold';
+    src: url('../fonts/Jaldi-Bold.ttf');
+    font-weight: bold;
+    font-style: normal;
+}
+
+body{
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 500vh;
+
+    background:url("/images/Background.png");
+    background-position: 0 0;
+    background-size: cover;
+
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+
+.navbar{
+    width: 100%;
+    height: 24vh;
+    color: white;
+
+
+    display: grid;
+    grid-template-columns: 23fr 50fr 23fr;
+}
+
+
+
+
+
+.navbarLogo{
+    background-image: url("/images/logo.png");
+
+    background-size: contain;
+    background-position: 2vw center;
+    background-repeat: no-repeat;
+    height: 24vh;
+}
+
+
+.navbarMenu{
+    background-color: #03045E;
+    width: 100%;
+    height: 8.5vh;
+    margin: 7.75vh 0 7.75vh 0;
+    border-radius: 40px;
+
+    display: grid;
+    grid-template-columns: 7fr 92fr;
+    padding: 0.25vh;
+
+    box-sizing: border-box;
+
+    transition: all 0.3s;
+
+}
+
+.navbarDevelopp{
+    height: 28vh;
+}
+
+
+.navbarSearchIcon{
+    background-color: rgb(255, 255, 255);
+    border-radius: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-self: flex-start;
+
+    width: 8vh;
+    height: 8vh;
+
+}
+
+.navbarCategories{
+    background-color: none;
+    border-radius: 40px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.navbarCategorie{
+    margin: 0;
+    font-family:'Jaldi-Regular';
+    font-size: 20px;
+    user-select: none;
+    cursor: pointer;
+    align-self: flex-start;
+    height: 8vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5vh;
+}
+
+.navbarIcons{
+    width: 100%;
+    height: 24vh;
+    background-color: 100%;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.iconsContainer{
+    width: 100%;
+    height: 8vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4vh;
+
+}
+
+.navbarIcon{
+    width: 50px;
+    height: 50px;
+    height: 8vh;
+    width: 8vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+    background-color: #03045E;
+}
+
+
