@@ -60,6 +60,7 @@ class Article
     {
         $this->Theme = new ArrayCollection();
         $this->Liked = new ArrayCollection();
+        $this->themes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -159,18 +160,6 @@ class Article
     public function removeTheme(Themes $theme): static
     {
         $this->Theme->removeElement($theme);
-
-        return $this;
-    }
-
-    public function getCategory(): ?Categories
-    {
-        return $this->Category;
-    }
-
-    public function setCategory(?Categories $category): static
-    {
-        $this->Category = $category;
 
         return $this;
     }
