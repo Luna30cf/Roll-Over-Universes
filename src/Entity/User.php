@@ -34,11 +34,7 @@ class User
     #[ORM\Column(length: 255)]
     private ?string $Role = null;
 
-    /**
-     * @var Collection<int, Cart>
-     */
-    #[ORM\ManyToMany(targetEntity: Cart::class, mappedBy: 'User')]
-    private Collection $Carts;
+    
 
     /**
      * @var Collection<int, Invoice>
@@ -58,9 +54,13 @@ class User
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $Delivery_address = null;
 
+    #[ORM\OneToOne(mappedBy: 'User', cascade: ['persist', 'remove'])]
+    private ?Cart $Carts = null;
+
+    
+
     public function __construct()
     {
-        $this->Carts = new ArrayCollection();
         $this->Invoices = new ArrayCollection();
         $this->Liked = new ArrayCollection();
     }
@@ -142,32 +142,7 @@ class User
         return $this;
     }
 
-    /**
-     * @return Collection<int, Cart>
-     */
-    public function getCarts(): Collection
-    {
-        return $this->Carts;
-    }
-
-    public function addCart(Cart $cart): static
-    {
-        if (!$this->Carts->contains($cart)) {
-            $this->Carts->add($cart);
-            $cart->addUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCart(Cart $cart): static
-    {
-        if ($this->Carts->removeElement($cart)) {
-            $cart->removeUser($this);
-        }
-
-        return $this;
-    }
+    
 
     /**
      * @return Collection<int, Invoice>
@@ -249,4 +224,23 @@ class User
 
         return $this;
     }
+
+    public function getCarts(): ?Cart
+    {
+        return $this->Carts;
+    }
+
+    public function setCarts(Cart $Carts): static
+    {
+        // set the owning side of the relation if necessary
+        if ($Carts->getUser() !== $this) {
+            $Carts->setUser($this);
+        }
+
+        $this->Carts = $Carts;
+
+        return $this;
+    }
+
+    
 }
