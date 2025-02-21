@@ -12,7 +12,7 @@ Bouton de connexion
 Barre-menu
 Produits à la une
 Logo panier
-Trucs jolies pour remplir l’espace :)
+Trucs jolies pour remplir l’espace
 
 Fenêtre de connexion :
 
