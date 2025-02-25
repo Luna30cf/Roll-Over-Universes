@@ -21,6 +21,13 @@
     font-style: normal;
 }
 
+
+main{
+    z-index: 0;
+    position: relative;
+}
+
+
 body{
     margin: 0;
     padding: 0;
@@ -48,8 +55,8 @@ body{
 
     display: grid;
     grid-template-columns: 23fr 50fr 23fr;
-
-    z-index: 999999;
+    position: relative;
+    z-index: 9999;
 }
 
 
@@ -121,16 +128,9 @@ body{
     justify-content: center;
     align-items: center;
     gap: 0.5vh;
-    text-decoration: underline;
-    text-decoration-thickness: -10px;
     transition: 0.3s all;
 }
 
-
-.categorieUnderline{
-    text-decoration-thickness: 2px;
-    transition: 0.3s all;
-}
 
 .navbarIcons{
     width: 100%;
