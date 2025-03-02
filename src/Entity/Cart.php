@@ -19,6 +19,7 @@ class Cart
      * @var Collection<int, User>
      */
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'Carts')]
+    #[ORM\JoinColumn(nullable: false)]
     private Collection $User;
 
     /**

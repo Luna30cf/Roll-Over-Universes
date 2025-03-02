@@ -7,6 +7,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
@@ -20,16 +23,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $Username = null;
+    private ?string $username = null;
 
     #[ORM\Column(length: 180)]
     private ?string $email = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $Balance = null;
+    private ?string $balance = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $Picture_profile = null;
+    private ?string $pictureProfile = null;
 
     /**
      * @var list<string> The user roles
@@ -53,13 +56,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var Collection<int, Article>
      */
     #[ORM\ManyToMany(targetEntity: Article::class, mappedBy: 'Liked')]
+    #[ORM\JoinTable(name: 'liked_articles')]
     private Collection $Liked;
 
     #[ORM\Column(nullable: true)]
-    private ?int $Phone_number = null;
+    private ?int $phoneNumber = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $Delivery_address = null;
+    private ?string $deliveryAddress = null;
 
     #[ORM\OneToOne(mappedBy: 'User', cascade: ['persist', 'remove'])]
     private ?Cart $Carts = null;
@@ -77,12 +81,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getUsername(): ?string
     {
-        return $this->Username;
+        return $this->username;
     }
 
-    public function setUsername(string $Username): static
+    public function setUsername(string $username): static
     {
-        $this->Username = $Username;
+        $this->username = $username;
 
         return $this;
     }
@@ -101,24 +105,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getBalance(): ?string
     {
-        return $this->Balance;
+        return $this->balance;
     }
 
-    public function setBalance(string $Balance): static
+    public function setBalance(string $balance): static
     {
-        $this->Balance = $Balance;
+        $this->balance = $balance;
 
         return $this;
     }
 
     public function getPictureProfile(): ?string
     {
-        return $this->Picture_profile;
+        return $this->pictureProfile;
     }
 
-    public function setPictureProfile(string $Picture_profile): static
+    public function setPictureProfile(string $pictureProfile): static
     {
-        $this->Picture_profile = $Picture_profile;
+        $this->pictureProfile = $pictureProfile;
 
         return $this;
     }
@@ -231,24 +235,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getPhoneNumber(): ?int
     {
-        return $this->Phone_number;
+        return $this->phoneNumber;
     }
 
-    public function setPhoneNumber(?int $Phone_number): static
+    public function setPhoneNumber(?int $phoneNumber): static
     {
-        $this->Phone_number = $Phone_number;
+        $this->phoneNumber = $phoneNumber;
 
         return $this;
     }
 
     public function getDeliveryAddress(): ?string
     {
-        return $this->Delivery_address;
+        return $this->deliveryAddress;
     }
 
-    public function setDeliveryAddress(?string $Delivery_address): static
+    public function setDeliveryAddress(?string $deliveryAddress): static
     {
-        $this->Delivery_address = $Delivery_address;
+        $this->deliveryAddress = $deliveryAddress;
 
         return $this;
     }
