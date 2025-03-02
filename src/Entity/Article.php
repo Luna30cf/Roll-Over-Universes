@@ -84,12 +84,12 @@ class Article
         return $this->Cover;
     }
 
-    public function setCover(string $Cover): static
+    public function setCover(?string $Cover): static
     {
         $this->Cover = $Cover;
-
         return $this;
     }
+    
 
     public function getDescription(): ?string
     {

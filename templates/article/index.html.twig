@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nos Articles{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+{% endblock %}
+
+{% block content %}
+    <h1 style="text-align: center; margin-top: 20px;">Nos Articles</h1>
+
+    <!-- Message si aucun article n'est trouvé -->
+    <p id="noResultsMessage" class="no-results-message" style="display: none; text-align: center; font-size: 18px; color: #666; margin-top: 20px;">
+        Aucun article ne correspond à votre recherche.
+    </p>
+
+    <!-- Conteneur des articles -->
+    <div class="article-container">
+        {% for article in articles %}
+            <div class="article-card" data-name="{{ article.name }}" data-price="{{ article.price }}" data-category="{{ article.category.name }}">
+                
+                <!-- Gestion de l'image -->
+                {% if article.cover %}
+                    <img src="{{ asset('articleImages/' ~ article.cover) }}" alt="{{ article.name }}" class="article-image">
+                {% else %}
+                    <div class="article-image-default">
+                        <p>Image Indisponible</p>
+                    </div>
+                {% endif %}
+
+                <!-- Contenu de l'article -->
+                <div class="article-content">
+                    <h2 class="article-title">{{ article.name }}</h2>
+                    <p class="article-description">{{ article.description }}</p>
+                    <p class="article-price">{{ article.price }} €</p>
+                    <p class="article-stock">Stock : {{ article.itemsStored }}</p>
+                    <p class="article-category"><strong>Catégorie :</strong> {{ article.category.name }}</p>
+
+                    <a href="#" class="article-btn">Voir l'article</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('assets/js/navbar.js') }}?v={{ 'now'|date('U') }}"></script>
+{% endblock %}
