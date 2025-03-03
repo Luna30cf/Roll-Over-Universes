@@ -50,7 +50,7 @@ class Article
 
     /**
      * @var Collection<int, User>
-     */
+    */
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'Liked')]
     private Collection $Liked;
 

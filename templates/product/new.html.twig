@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un Produit
+{% endblock %}
+	{% block styles %}
+		<link rel="stylesheet" href="{{ asset('assets/css/product_form.css') }}?v={{ random() }}">
+	{% endblock %}
+{% block content %}
+	<div class="form-container">
+		<h1>Ajouter un Nouveau Produit</h1>
+		{{ form_start(form) }}
+		<div class="form-group">
+			{{ form_label(form.name) }}
+			{{ form_widget(form.name) }}
+		</div>
+
+		<div class="form-group">
+			{{ form_label(form.description) }}
+			{{ form_widget(form.description) }}
+		</div>
+
+		<div class="form-group">
+			{{ form_label(form.price) }}
+			{{ form_widget(form.price) }}
+		</div>
+
+		<div class="form-group">
+			{{ form_label(form.itemsStored) }}
+			{{ form_widget(form.itemsStored) }}
+		</div>
+
+		<div class="form-group">
+			{{ form_label(form.category) }}
+			{{ form_widget(form.category) }}
+		</div>
+
+		<div class="form-group">
+			{{ form_label(form.cover) }}
+			{{ form_widget(form.cover) }}
+		</div>
+
+		<button type="submit" class="btn">Ajouter</button>
+		{{ form_end(form) }}
+	</div>
+{% endblock %}

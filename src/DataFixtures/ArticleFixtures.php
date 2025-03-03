@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\DataFixtures;
 
 use App\Entity\Article;
@@ -8,54 +7,54 @@ use App\Entity\Categories;
 use App\Entity\Author;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use DateTime;
+use Faker\Factory;
+use Symfony\Component\Filesystem\Filesystem;
 
 class ArticleFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        // 📌 Création d'une catégorie
-        $category = new Categories();
-        $category->setName("Meubles");
-        $manager->persist($category);
-        $manager->flush();
+        $faker = Factory::create('fr_FR');
+        $filesystem = new Filesystem();
 
-        // 📌 Création d'un auteur
+        // Création d'un auteur par défaut
         $author = new Author();
-        $author->setName("Admin");
+        $author->setName($faker->name);
         $manager->persist($author);
-        $manager->flush();
 
-        // 📌 Chemin du dossier contenant les images
-        $imagePath = __DIR__ . '/../../public/articleImages/';
+        // Création de quelques catégories
+        $categories = [];
+        $categoryNames = ['Meubles', 'Décoration', 'Électronique', 'Jouets', 'Livres'];
 
-        // 📌 Articles avec leurs images basées sur leur nom
-        $articles = [
-            ["name" => "Chaise moderne", "description" => "Belle chaise en bois", "price" => 120, "items_stored" => 5],
-            ["name" => "Table en bois", "description" => "Table solide en chêne", "price" => 250, "items_stored" => 3],
-            ["name" => "Lampe design", "description" => "Lampe LED moderne", "price" => 80, "items_stored" => 10]
-        ];
+        foreach ($categoryNames as $name) {
+            $category = new Categories();
+            $category->setName($name);
+            $manager->persist($category);
+            $categories[] = $category;
+        }
 
-        foreach ($articles as $data) {
+        // Création de produits fictifs
+        for ($i = 1; $i <= 10; $i++) {
             $article = new Article();
-            $article->setName($data["name"]);
-            $article->setDescription($data["description"]);
-            $article->setPrice($data["price"]);
-            $article->setItemsStored($data["items_stored"]);
-            $article->setPublicationDate(new DateTime());
+            $productName = ucfirst($faker->words(2, true)); // Générer un nom
+            $article->setName($productName);
+            $article->setDescription($faker->sentence(10));
+            $article->setPrice($faker->randomFloat(2, 10, 500));
+            $article->setItemsStored($faker->numberBetween(1, 100));
+            $article->setPublicationDate($faker->dateTimeThisYear());
+            $article->setAuthor($author);
+            $article->setCategory($faker->randomElement($categories));
 
-            // 📌 Génère le nom de fichier basé sur le nom de l'article
-            $imageName = str_replace(' ', '_', strtolower($data["name"])) . ".png"; // Ex: "chaise_moderne.png"
+            // Générer le nom du fichier image
+            $imageName = strtolower(str_replace([' ', "'", '"', ',', ';'], '_', $productName)) . '.png';
+            $imagePath = __DIR__ . '/../../public/assets/articleImages/' . $imageName;
 
-            // 📌 Vérifie si l'image existe dans `public/articleImages/`
-            if (file_exists($imagePath . $imageName)) {
+            // Vérifier si l'image existe
+            if ($filesystem->exists($imagePath)) {
                 $article->setCover($imageName);
             } else {
-                $article->setCover(null); // 📌 Mettre NULL si l'image n'existe pas
+                $article->setCover('default.png'); // Image par défaut si non trouvée
             }
-
-            $article->setCategory($category);
-            $article->setAuthor($author);
 
             $manager->persist($article);
         }

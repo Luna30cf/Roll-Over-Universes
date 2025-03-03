@@ -3,9 +3,10 @@
 namespace App\Entity;
 
 use App\Repository\CartRepository;
+use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
+use App\Entity\User;
 
 #[ORM\Entity(repositoryClass: CartRepository::class)]
 class Cart
@@ -15,19 +16,16 @@ class Cart
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\OneToOne(inversedBy: 'Carts', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(targetEntity: User::class, inversedBy: 'cart')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $User = null;
+    private ?User $user = null;
 
-    /**
-     * @var Collection<int, Article>
-     */
-    #[ORM\ManyToMany(targetEntity: Article::class)]
-    private Collection $Products;
+    #[ORM\OneToMany(mappedBy: 'cart', targetEntity: CartArticle::class, cascade: ['persist', 'remove'])]
+    private Collection $cartArticles;
 
     public function __construct()
     {
-        $this->Products = new ArrayCollection();
+        $this->cartArticles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -37,37 +35,36 @@ class Cart
 
     public function getUser(): ?User
     {
-        return $this->User;
+        return $this->user;
     }
 
-    public function setUser(User $User): static
+    public function setUser(User $user): self
     {
-        $this->User = $User;
-
+        $this->user = $user;
         return $this;
     }
 
-    /**
-     * @return Collection<int, Article>
-     */
-    public function getProducts(): Collection
+    public function getCartArticles(): Collection
     {
-        return $this->Products;
+        return $this->cartArticles;
     }
 
-    public function addProduct(Article $product): static
+    public function addCartArticle(CartArticle $cartArticle): self
     {
-        if (!$this->Products->contains($product)) {
-            $this->Products->add($product);
+        if (!$this->cartArticles->contains($cartArticle)) {
+            $this->cartArticles->add($cartArticle);
+            $cartArticle->setCart($this);
         }
-
         return $this;
     }
 
-    public function removeProduct(Article $product): static
+    public function removeCartArticle(CartArticle $cartArticle): self
     {
-        $this->Products->removeElement($product);
-
+        if ($this->cartArticles->removeElement($cartArticle)) {
+            if ($cartArticle->getCart() === $this) {
+                $cartArticle->setCart(null);
+            }
+        }
         return $this;
     }
 }
