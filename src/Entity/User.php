@@ -52,10 +52,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $liked;
 
     #[ORM\Column(length: 20, nullable: true)]
-    #[Assert\Regex(
-        pattern: '/^[+]?[0-9]{10,15}$/',
-        message: 'Le numéro de téléphone n\'est pas valide'
-    )]
     private ?string $phoneNumber = null;
 
     #[ORM\Column(length: 255, nullable: true)]
