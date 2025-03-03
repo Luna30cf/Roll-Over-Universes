@@ -1,3 +1,4 @@
+{% block navbar %}
 <section class="navbar">
 	<a class="navbarLogo" href="{{ path('homepage') }}"></a>
 
@@ -42,11 +43,14 @@
 	<div class="navbarIcons">
 		<div class="iconsContainer">
 			<div class="accountIcon navbarIcon">
-				<svg class="accountIconSVG iconSVG" width="44" height="50" viewbox="0 0 44 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-					<circle cx="22" cy="10" r="10" fill="white"/>
-					<path fill-rule="evenodd" clip-rule="evenodd" d="M0.415771 36.9611C4.44899 29.257 12.5199 24 21.8187 24C31.1487 24 39.2426 29.2924 43.2621 37.0389C39.2289 44.743 31.158 50 21.8592 50C12.5292 50 4.43526 44.7076 0.415771 36.9611Z" fill="white"/>
-				</svg>
-
+				{% if app.user %}
+					<img src="{{ asset('uploads/profile_pictures/' ~ app.user.pictureProfile) }}" alt="Photo de profil" class="profile-picture">
+				{% else %}
+					<svg class="accountIconSVG iconSVG" width="44" height="50" viewbox="0 0 44 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<circle cx="22" cy="10" r="10" fill="white"/>
+						<path fill-rule="evenodd" clip-rule="evenodd" d="M0.415771 36.9611C4.44899 29.257 12.5199 24 21.8187 24C31.1487 24 39.2426 29.2924 43.2621 37.0389C39.2289 44.743 31.158 50 21.8592 50C12.5292 50 4.43526 44.7076 0.415771 36.9611Z" fill="white"/>
+					</svg>
+				{% endif %}
 			</div>
 
 			<div class="cartIcon navbarIcon">
@@ -57,3 +61,13 @@
 		</div>
 	</div>
 </section>
+
+<style>
+    .profile-picture {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+</style>
+{% endblock %}

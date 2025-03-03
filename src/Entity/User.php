@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'Il existe déjà un compte avec cet email')]
@@ -50,10 +51,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Article::class, mappedBy: 'Liked')]
     private Collection $liked;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $phoneNumber = null;
+    #[ORM\Column(length: 20, nullable: true)]
+    #[Assert\Regex(
+        pattern: '/^[+]?[0-9]{10,15}$/',
+        message: 'Le numéro de téléphone n\'est pas valide'
+    )]
+    private ?string $phoneNumber = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Length(
+        min: 10,
+        max: 255,
+        minMessage: 'L\'adresse doit faire au moins {{ limit }} caractères',
+        maxMessage: 'L\'adresse ne peut pas dépasser {{ limit }} caractères'
+    )]
     private ?string $deliveryAddress = null;
 
     #[ORM\OneToOne(mappedBy: 'User', cascade: ['persist', 'remove'])]
@@ -195,15 +206,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getPhoneNumber(): ?int
+    public function getPhoneNumber(): ?string
     {
         return $this->phoneNumber;
     }
 
-    public function setPhoneNumber(?int $phoneNumber): static
+    public function setPhoneNumber(?string $phoneNumber): static
     {
         $this->phoneNumber = $phoneNumber;
-
         return $this;
     }
 

@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier mon profil{% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <h1>Modifier mon profil</h1>
+
+        {% for message in app.flashes('error') %}
+            <div class="alert alert-danger">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        {{ form_start(form, {'attr': {'enctype': 'multipart/form-data'}}) }}
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    {{ form_row(form.pictureProfile) }}
+                    {{ form_errors(form.pictureProfile) }}
+                </div>
+                <div class="mb-3">
+                    {{ form_row(form.phoneNumber) }}
+                    {{ form_errors(form.phoneNumber) }}
+                </div>
+                <div class="mb-3">
+                    {{ form_row(form.deliveryAddress) }}
+                    {{ form_errors(form.deliveryAddress) }}
+                </div>
+                <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+                <a href="{{ path('app_profile') }}" class="btn btn-secondary">Retour</a>
+            </div>
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %} 
