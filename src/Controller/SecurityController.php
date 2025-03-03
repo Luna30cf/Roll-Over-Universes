@@ -66,4 +66,4 @@ class SecurityController extends AbstractController
     {
         // Le logout est géré automatiquement par Symfony
     }
-}
+} 
