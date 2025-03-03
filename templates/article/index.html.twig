@@ -22,7 +22,7 @@
                 <!-- Gestion de l'image -->
                 <div class="article-image-container">
                     {% if article.cover %}
-                        <img src="{{ asset('articleImages/' ~ article.cover) }}" alt="{{ article.name }}" class="article-image">
+                        <img src="{{ asset('assets/articleImages/' ~ article.cover) }}" alt="{{ article.name }}" class="article-image">
                     {% else %}
                         <div class="article-image-default">
                             <p>Image Indisponible</p>
@@ -38,7 +38,8 @@
                     <p class="article-stock">Stock : {{ article.itemsStored }}</p>
                     <p class="article-category"><strong>Catégorie :</strong> {{ article.category.name }}</p>
 
-                    <a href="#" class="article-btn">Voir l'article</a>
+                    <a href="{{ path('article_show', { 'id': article.id }) }}" class="article-btn">Voir l'article</a>
+
                 </div>
             </div>
         {% endfor %}

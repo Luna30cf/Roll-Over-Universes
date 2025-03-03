@@ -40,6 +40,8 @@ body{
 
     scrollbar-width: none;
     -ms-overflow-style: none;
+
+    font-family: "Jaldi-Regular";
 }
 
 ::-webkit-scrollbar {
@@ -340,4 +342,98 @@ svg{
     font-weight: bold;
     text-transform: uppercase;
     border: 1px solid #ccc;
+}
+
+
+
+
+
+
+
+
+
+
+/* 🌟 Conteneur principal */
+.product-detail-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* 🌟 Titre */
+.product-title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* 🌟 Conteneur image */
+.product-image-container {
+    width: 100%;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f5f5f5;
+    border-radius: 8px;
+}
+
+/* 🌟 Image du produit */
+.product-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+/* 🌟 Image par défaut */
+.product-image-default {
+    width: 300px;
+    height: 300px;
+    background-color: #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+/* 🌟 Infos produit */
+.product-info {
+    margin-top: 20px;
+    text-align: left;
+    font-size: 18px;
+}
+
+.product-info p {
+    margin-bottom: 10px;
+}
+
+.product-info strong {
+    color: #444;
+}
+
+/* 🌟 Bouton Retour */
+.product-btn-back {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 15px;
+    background: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.product-btn-back:hover {
+    background: #0056b3;
 }
