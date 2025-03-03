@@ -56,7 +56,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $deliveryAddress = null;
 
-    #[ORM\OneToOne(mappedBy: 'User', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(mappedBy: 'user', targetEntity: Cart::class, cascade: ['persist', 'remove'])]
     private ?Cart $cart = null;
 
     public function __construct()
@@ -219,20 +219,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getCarts(): ?Cart
+
+    public function getCart(): ?Cart
     {
         return $this->cart;
     }
-
-    public function setCarts(Cart $cart): static
+    
+    public function setCart(Cart $cart): self
     {
-        // set the owning side of the relation if necessary
+        $this->cart = $cart;
+    
         if ($cart->getUser() !== $this) {
             $cart->setUser($this);
         }
-
-        $this->cart = $cart;
-
+    
         return $this;
     }
 

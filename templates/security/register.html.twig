@@ -26,6 +26,12 @@
                 {{ form_errors(registrationForm.plainPassword) }}
             </div>
 
+            <div class="form-group terms">
+                {{ form_widget(registrationForm.agreeTerms) }}
+                {{ form_label(registrationForm.agreeTerms) }}
+                {{ form_errors(registrationForm.agreeTerms) }}
+            </div>
+
             <button type="submit" class="btn btn-primary">S'inscrire</button>
         {{ form_end(registrationForm) }}
 

@@ -1,37 +1,31 @@
 <?php
 
-
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\LoginType;
-use App\Form\RegistrationType;
+use App\Form\RegistrationFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+
 
 class SecurityController extends AbstractController
 {
     #[Route('/login', name: 'app_login', methods: ['GET', 'POST'])]
-    public function login(Request $request, AuthenticationUtils $authenticationUtils): Response
+    public function login(AuthenticationUtils $authenticationUtils): Response
     {
         if ($this->getUser()) {
             return $this->redirectToRoute('homepage');
         }
 
-        // Créer le formulaire de connexion
-        $form = $this->createForm(LoginType::class);
-
-        // Gérer les erreurs de connexion si présentes
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
 
         return $this->render('security/login.html.twig', [
-            'loginForm' => $form->createView(),
             'last_username' => $lastUsername,
             'error' => $error,
         ]);
@@ -41,7 +35,7 @@ class SecurityController extends AbstractController
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
         $user = new User();
-        $form = $this->createForm(RegistrationType::class, $user);
+        $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -50,7 +44,6 @@ class SecurityController extends AbstractController
             $user->setPictureProfile('default.jpg');
             $user->setRoles(['ROLE_USER']);
 
-            // Hash the user's password
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
@@ -74,4 +67,4 @@ class SecurityController extends AbstractController
     {
         // Le logout est géré automatiquement par Symfony
     }
-}
+} 

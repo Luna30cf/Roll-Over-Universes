@@ -2,7 +2,6 @@
 
 namespace App\Form;
 
-use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -22,16 +21,23 @@ class RegistrationType extends AbstractType
             ->add('username', TextType::class, [
                 'label' => 'Nom d\'utilisateur',
             ])
-            ->add('plainPassword', PasswordType::class, [ 
+            ->add('password', PasswordType::class, [
                 'label' => 'Mot de passe',
-                'mapped' => false, // Indispensable pour éviter une erreur
+            ])
+            ->add('password_confirmation', PasswordType::class, [
+                'label' => 'Confirmer le mot de passe',
+            ])
+            ->add('terms_conditions', CheckboxType::class, [
+                'label' => 'J\'accepte les conditions d\'utilisation',
+                'mapped' => false,
+                'required' => true,
             ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => User::class, 
+            'data_class' => null,  // Modifier si une entité User est utilisée
         ]);
     }
 }
