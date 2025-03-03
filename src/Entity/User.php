@@ -3,18 +3,16 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ORM\Table(name: '`user`')]
-#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
-#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+#[UniqueEntity(fields: ['email'], message: 'Il existe déjà un compte avec cet email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -25,39 +23,32 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $username = null;
 
-    #[ORM\Column(length: 180)]
+    #[ORM\Column(length: 255, unique: true)]
     private ?string $email = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $balance = null;
-
     #[ORM\Column(length: 255)]
-    private ?string $pictureProfile = null;
-
-    /**
-     * @var list<string> The user roles
-     */
-    #[ORM\Column]
-    private array $roles = [];
-
-    /**
-     * @var string The hashed password
-     */
-    #[ORM\Column]
     private ?string $password = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
+    private ?string $balance = '0.00';
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $pictureProfile = 'default.jpg';
+
+    #[ORM\Column(type: 'json')]
+    private array $roles = ['ROLE_USER'];
 
     /**
      * @var Collection<int, Invoice>
      */
     #[ORM\OneToMany(targetEntity: Invoice::class, mappedBy: 'User')]
-    private Collection $Invoices;
+    private Collection $invoices;
 
     /**
      * @var Collection<int, Article>
      */
     #[ORM\ManyToMany(targetEntity: Article::class, mappedBy: 'Liked')]
-    #[ORM\JoinTable(name: 'liked_articles')]
-    private Collection $Liked;
+    private Collection $liked;
 
     #[ORM\Column(nullable: true)]
     private ?int $phoneNumber = null;
@@ -66,12 +57,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $deliveryAddress = null;
 
     #[ORM\OneToOne(mappedBy: 'User', cascade: ['persist', 'remove'])]
-    private ?Cart $Carts = null;
+    private ?Cart $cart = null;
 
     public function __construct()
     {
-        $this->Invoices = new ArrayCollection();
-        $this->Liked = new ArrayCollection();
+        $this->invoices = new ArrayCollection();
+        $this->liked = new ArrayCollection();
+        $this->balance = '0.00';
+        $this->pictureProfile = 'default.jpg';
     }
 
     public function getId(): ?int
@@ -87,7 +80,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUsername(string $username): static
     {
         $this->username = $username;
-
         return $this;
     }
 
@@ -99,7 +91,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEmail(string $email): static
     {
         $this->email = $email;
+        return $this;
+    }
 
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): static
+    {
+        $this->password = $password;
         return $this;
     }
 
@@ -111,7 +113,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setBalance(string $balance): static
     {
         $this->balance = $balance;
-
         return $this;
     }
 
@@ -123,56 +124,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPictureProfile(string $pictureProfile): static
     {
         $this->pictureProfile = $pictureProfile;
-
         return $this;
     }
 
-    /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
-     */
-    public function getUserIdentifier(): string
-    {
-        return (string) $this->email;
-    }
-
-    /**
-     * @see UserInterface
-     *
-     * @return list<string>
-     */
     public function getRoles(): array
     {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
-
-        return array_unique($roles);
+        return $this->roles;
     }
 
-    /**
-     * @param list<string> $roles
-     */
     public function setRoles(array $roles): static
     {
         $this->roles = $roles;
-
-        return $this;
-    }
-
-    /**
-     * @see PasswordAuthenticatedUserInterface
-     */
-    public function getPassword(): ?string
-    {
-        return $this->password;
-    }
-
-    public function setPassword(string $password): static
-    {
-        $this->password = $password;
-
         return $this;
     }
 
@@ -181,13 +143,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getInvoices(): Collection
     {
-        return $this->Invoices;
+        return $this->invoices;
     }
 
     public function addInvoice(Invoice $invoice): static
     {
-        if (!$this->Invoices->contains($invoice)) {
-            $this->Invoices->add($invoice);
+        if (!$this->invoices->contains($invoice)) {
+            $this->invoices->add($invoice);
             $invoice->setUser($this);
         }
 
@@ -196,7 +158,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removeInvoice(Invoice $invoice): static
     {
-        if ($this->Invoices->removeElement($invoice)) {
+        if ($this->invoices->removeElement($invoice)) {
             // set the owning side to null (unless already changed)
             if ($invoice->getUser() === $this) {
                 $invoice->setUser(null);
@@ -211,13 +173,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getLiked(): Collection
     {
-        return $this->Liked;
+        return $this->liked;
     }
 
     public function addLiked(Article $liked): static
     {
-        if (!$this->Liked->contains($liked)) {
-            $this->Liked->add($liked);
+        if (!$this->liked->contains($liked)) {
+            $this->liked->add($liked);
             $liked->addLiked($this);
         }
 
@@ -226,7 +188,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removeLiked(Article $liked): static
     {
-        if ($this->Liked->removeElement($liked)) {
+        if ($this->liked->removeElement($liked)) {
             $liked->removeLiked($this);
         }
 
@@ -259,27 +221,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getCarts(): ?Cart
     {
-        return $this->Carts;
+        return $this->cart;
     }
 
-    public function setCarts(Cart $Carts): static
+    public function setCarts(Cart $cart): static
     {
         // set the owning side of the relation if necessary
-        if ($Carts->getUser() !== $this) {
-            $Carts->setUser($this);
+        if ($cart->getUser() !== $this) {
+            $cart->setUser($this);
         }
 
-        $this->Carts = $Carts;
+        $this->cart = $cart;
 
         return $this;
     }
 
-    /**
-     * @see UserInterface
-     */
     public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
     }
 }

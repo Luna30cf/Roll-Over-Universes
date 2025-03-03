@@ -16,6 +16,19 @@ class ArticleRepository extends ServiceEntityRepository
         parent::__construct($registry, Article::class);
     }
 
+
+    public function findAllArticles(): array
+    {
+        return $this->createQueryBuilder('a')
+            ->leftJoin('a.Category', 'c')
+            ->leftJoin('a.Author', 'au')
+            ->addSelect('c', 'au')
+            ->orderBy('a.Name', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+
     //    /**
     //     * @return Article[] Returns an array of Article objects
     //     */
