@@ -39,11 +39,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private array $roles = [];
 
+<<<<<<< HEAD
     /**
      * @var string The hashed password
      */
     #[ORM\Column]
     private ?string $password = null;
+=======
+    
+>>>>>>> c4cff26 (db update)
 
     /**
      * @var Collection<int, Invoice>
@@ -66,7 +70,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(mappedBy: 'User', cascade: ['persist', 'remove'])]
     private ?Cart $Carts = null;
 
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> c4cff26 (db update)
 
     public function __construct()
     {
@@ -161,6 +169,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+<<<<<<< HEAD
     /**
      * @see PasswordAuthenticatedUserInterface
      */
@@ -175,6 +184,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+=======
+    
+>>>>>>> c4cff26 (db update)
 
     /**
      * @return Collection<int, Invoice>
@@ -274,6 +286,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+<<<<<<< HEAD
     /**
      * @see UserInterface
      */
@@ -282,4 +295,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
+=======
+    
+>>>>>>> c4cff26 (db update)
 }

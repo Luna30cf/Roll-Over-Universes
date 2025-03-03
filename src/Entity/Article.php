@@ -54,6 +54,8 @@ class Article
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'Liked')]
     private Collection $Liked;
 
+    
+
     public function __construct()
     {
         $this->Theme = new ArrayCollection();
@@ -208,4 +210,6 @@ class Article
 
         return $this;
     }
+
+    
 }
