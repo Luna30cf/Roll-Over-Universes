@@ -2,19 +2,32 @@
 
 {% block title %}Mon Panier{% endblock %}
 
-{% block content %}
-    <h1>Mon Panier</h1>
+{% block styles %}
+    <link rel="stylesheet" href="{{ asset('assets/css/panier.css') }}">
+{% endblock %}
 
-    {% if cart and cart.cartArticles|length > 0 %}
-        <ul>
-            {% for cartArticle in cart.cartArticles %}
-                <li>
-                    {{ cartArticle.article.name }} - {{ cartArticle.article.price }}€
-                    <a href="#">Supprimer</a>
-                </li>
+{% block content %}
+    <div class="cart-container">
+        <h1 class="cart-header">Votre Panier</h1>
+
+        <div class="cart-items">
+            {% for item in cartItems %}
+                <div class="cart-item">
+                    <img src="{{ asset('assets/articleImages/' ~ item.cover) }}" alt="{{ item.name }}">
+                    <div class="cart-item-details">
+                        <div class="cart-item-name">{{ item.name }}</div>
+                        <div class="cart-item-price">{{ item.price }} €</div>
+                    </div>
+                    <button class="cart-item-remove">Supprimer</button>
+                </div>
             {% endfor %}
-        </ul>
-    {% else %}
-        <p>Votre panier est vide.</p>
-    {% endif %}
+        </div>
+
+        <div class="cart-summary">
+            <div class="cart-summary-total">
+                Total : {{ totalPrice }} €
+            </div>
+            <button class="cart-summary-checkout" onclick="window.location.href='/checkout'">Procéder au Paiement</button>
+        </div>
+    </div>
 {% endblock %}
