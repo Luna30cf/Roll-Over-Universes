@@ -1,22 +1,28 @@
 {% extends 'base.html.twig' %}
 
-
-
 {% block content %}
-		<link rel="stylesheet" href="{{ asset('assets/css/home.css') }}?v={{ random() }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/home.css') }}?v={{ random() }}">
 
-    
+    {% if app.user %}
+        <div id="popup" class="popup">
+            <p>✅ Connecté en tant que {{ app.user.email }}</p>
+        </div>
+    {% else %}
+        <div id="popup" class="popup">
+            <p>❌ Vous n'êtes pas connecté</p>
+        </div>
+    {% endif %}
+
     <section class="homeBanner">
         <h1 class="bannerTitle">Roll Over Universes</h1>
     </section>
 
     <section class="homeGameFront">
-        <div class="fi1 frontImage" ></div>
-        <div class="fi2 frontImage" ></div>
-        <div class="fi3 frontImage" ></div>
-        <div class="fi4 frontImage" ></div>
+        <div class="fi1 frontImage"></div>
+        <div class="fi2 frontImage"></div>
+        <div class="fi3 frontImage"></div>
+        <div class="fi4 frontImage"></div>
     </section>
-
 
     <ul>
         <li><a href="{{ path('article_list') }}">Voir les produits</a></li>
@@ -25,6 +31,18 @@
         <li><a href="{{ path('payment_confirmation') }}">Vérifier mon paiement</a></li>
         <li><a href="{{ path('account') }}">Gérer mon compte</a></li>
     </ul>
-	<script src="{{ asset('assets/js/banner.js') }}?v={{ 'now'|date('U') }}"></script>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let popup = document.getElementById("popup");
+            popup.style.display = "block";
+
+            setTimeout(function () {
+                popup.style.opacity = "0";
+                setTimeout(() => popup.style.display = "none", 500);
+            }, 3000); // Disparaît après 3 secondes
+        });
+    </script>
+
+    <script src="{{ asset('assets/js/banner.js') }}?v={{ 'now'|date('U') }}"></script>
 {% endblock %}
