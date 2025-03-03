@@ -1,0 +1,29 @@
+<!-- Bouton pour ouvrir la pop-up -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registerModal">
+    S'inscrire
+</button>
+
+<!-- Pop-up d'inscription -->
+<div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="registerModalLabel">Inscription</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="registrationForm">
+                    {{ form_start(form, { 'attr': { 'id': 'registerForm' } }) }}
+                        {{ form_row(form.email) }}
+                        {{ form_row(form.username) }}
+                        {{ form_row(form.password) }}
+                        {{ form_row(form.password_confirmation) }}
+                        {{ form_row(form.terms_conditions) }}
+                        <button type="submit" class="btn btn-success w-100 mt-3">S'inscrire</button>
+                    {{ form_end(form) }}
+                </form>
+                <div id="registerMessage" class="mt-2 text-center"></div>
+            </div>
+        </div>
+    </div>
+</div>
