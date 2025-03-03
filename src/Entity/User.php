@@ -7,9 +7,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-class User
+#[UniqueEntity(fields: ['email'], message: 'Il existe déjà un compte avec cet email')]
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -17,52 +21,50 @@ class User
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $Username = null;
+    private ?string $username = null;
+
+    #[ORM\Column(length: 255, unique: true)]
+    private ?string $email = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $Email = null;
+    private ?string $password = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $Password = null;
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
+    private ?string $balance = '0.00';
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $Balance = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $pictureProfile = 'default.jpg';
 
-    #[ORM\Column(length: 255)]
-    private ?string $Picture_profile = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $Role = null;
-
-    
+    #[ORM\Column(type: 'json')]
+    private array $roles = ['ROLE_USER'];
 
     /**
      * @var Collection<int, Invoice>
      */
     #[ORM\OneToMany(targetEntity: Invoice::class, mappedBy: 'User')]
-    private Collection $Invoices;
+    private Collection $invoices;
 
     /**
      * @var Collection<int, Article>
      */
     #[ORM\ManyToMany(targetEntity: Article::class, mappedBy: 'Liked')]
-    private Collection $Liked;
+    private Collection $liked;
 
     #[ORM\Column(nullable: true)]
-    private ?int $Phone_number = null;
+    private ?int $phoneNumber = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $Delivery_address = null;
+    private ?string $deliveryAddress = null;
 
     #[ORM\OneToOne(mappedBy: 'User', cascade: ['persist', 'remove'])]
-    private ?Cart $Carts = null;
-
-    
+    private ?Cart $cart = null;
 
     public function __construct()
     {
-        $this->Invoices = new ArrayCollection();
-        $this->Liked = new ArrayCollection();
+        $this->invoices = new ArrayCollection();
+        $this->liked = new ArrayCollection();
+        $this->balance = '0.00';
+        $this->pictureProfile = 'default.jpg';
     }
 
     public function getId(): ?int
@@ -72,90 +74,82 @@ class User
 
     public function getUsername(): ?string
     {
-        return $this->Username;
+        return $this->username;
     }
 
-    public function setUsername(string $Username): static
+    public function setUsername(string $username): static
     {
-        $this->Username = $Username;
-
+        $this->username = $username;
         return $this;
     }
 
     public function getEmail(): ?string
     {
-        return $this->Email;
+        return $this->email;
     }
 
-    public function setEmail(string $Email): static
+    public function setEmail(string $email): static
     {
-        $this->Email = $Email;
-
+        $this->email = $email;
         return $this;
     }
 
     public function getPassword(): ?string
     {
-        return $this->Password;
+        return $this->password;
     }
 
-    public function setPassword(string $Password): static
+    public function setPassword(string $password): static
     {
-        $this->Password = $Password;
-
+        $this->password = $password;
         return $this;
     }
 
     public function getBalance(): ?string
     {
-        return $this->Balance;
+        return $this->balance;
     }
 
-    public function setBalance(string $Balance): static
+    public function setBalance(string $balance): static
     {
-        $this->Balance = $Balance;
-
+        $this->balance = $balance;
         return $this;
     }
 
     public function getPictureProfile(): ?string
     {
-        return $this->Picture_profile;
+        return $this->pictureProfile;
     }
 
-    public function setPictureProfile(string $Picture_profile): static
+    public function setPictureProfile(string $pictureProfile): static
     {
-        $this->Picture_profile = $Picture_profile;
-
+        $this->pictureProfile = $pictureProfile;
         return $this;
     }
 
-    public function getRole(): ?string
+    public function getRoles(): array
     {
-        return $this->Role;
+        return $this->roles;
     }
 
-    public function setRole(string $Role): static
+    public function setRoles(array $roles): static
     {
-        $this->Role = $Role;
-
+        $this->roles = $roles;
         return $this;
     }
-
-    
 
     /**
      * @return Collection<int, Invoice>
      */
     public function getInvoices(): Collection
     {
-        return $this->Invoices;
+        return $this->invoices;
     }
 
     public function addInvoice(Invoice $invoice): static
     {
-        if (!$this->Invoices->contains($invoice)) {
-            $this->Invoices->add($invoice);
+        if (!$this->invoices->contains($invoice)) {
+            $this->invoices->add($invoice);
             $invoice->setUser($this);
         }
 
@@ -164,7 +158,7 @@ class User
 
     public function removeInvoice(Invoice $invoice): static
     {
-        if ($this->Invoices->removeElement($invoice)) {
+        if ($this->invoices->removeElement($invoice)) {
             // set the owning side to null (unless already changed)
             if ($invoice->getUser() === $this) {
                 $invoice->setUser(null);
@@ -179,13 +173,13 @@ class User
      */
     public function getLiked(): Collection
     {
-        return $this->Liked;
+        return $this->liked;
     }
 
     public function addLiked(Article $liked): static
     {
-        if (!$this->Liked->contains($liked)) {
-            $this->Liked->add($liked);
+        if (!$this->liked->contains($liked)) {
+            $this->liked->add($liked);
             $liked->addLiked($this);
         }
 
@@ -194,7 +188,7 @@ class User
 
     public function removeLiked(Article $liked): static
     {
-        if ($this->Liked->removeElement($liked)) {
+        if ($this->liked->removeElement($liked)) {
             $liked->removeLiked($this);
         }
 
@@ -203,44 +197,52 @@ class User
 
     public function getPhoneNumber(): ?int
     {
-        return $this->Phone_number;
+        return $this->phoneNumber;
     }
 
-    public function setPhoneNumber(?int $Phone_number): static
+    public function setPhoneNumber(?int $phoneNumber): static
     {
-        $this->Phone_number = $Phone_number;
+        $this->phoneNumber = $phoneNumber;
 
         return $this;
     }
 
     public function getDeliveryAddress(): ?string
     {
-        return $this->Delivery_address;
+        return $this->deliveryAddress;
     }
 
-    public function setDeliveryAddress(?string $Delivery_address): static
+    public function setDeliveryAddress(?string $deliveryAddress): static
     {
-        $this->Delivery_address = $Delivery_address;
+        $this->deliveryAddress = $deliveryAddress;
 
         return $this;
     }
 
     public function getCarts(): ?Cart
     {
-        return $this->Carts;
+        return $this->cart;
     }
 
-    public function setCarts(Cart $Carts): static
+    public function setCarts(Cart $cart): static
     {
         // set the owning side of the relation if necessary
-        if ($Carts->getUser() !== $this) {
-            $Carts->setUser($this);
+        if ($cart->getUser() !== $this) {
+            $cart->setUser($this);
         }
 
-        $this->Carts = $Carts;
+        $this->cart = $cart;
 
         return $this;
     }
 
-    
+    public function eraseCredentials(): void
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
+    }
 }

@@ -14,6 +14,20 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'LilitaOne';
+    src: url('../fonts/LilitaOne-Regular.ttf');
+    font-weight: bold;
+    font-style: normal;
+}
+
+
+main{
+    z-index: 0;
+    position: relative;
+}
+
+
 body{
     margin: 0;
     padding: 0;
@@ -26,6 +40,8 @@ body{
 
     scrollbar-width: none;
     -ms-overflow-style: none;
+
+    font-family: "Jaldi-Regular";
 }
 
 ::-webkit-scrollbar {
@@ -41,6 +57,10 @@ body{
 
     display: grid;
     grid-template-columns: 23fr 50fr 23fr;
+    position: relative;
+    z-index: 9999;
+
+
 }
 
 
@@ -64,9 +84,10 @@ body{
     margin: 7.75vh 0 7.75vh 0;
     border-radius: 40px;
 
-    display: grid;
-    grid-template-columns: 7fr 92fr;
-    padding: 0.25vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5vh;
 
     box-sizing: border-box;
 
@@ -80,17 +101,81 @@ body{
 
 
 .navbarSearchIcon{
-    background-color: rgb(255, 255, 255);
-    border-radius: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
     align-self: flex-start;
 
-    width: 8vh;
-    height: 8vh;
+    height: 100%;
 
 }
+
+
+.navbarSearchContainer{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+
+.navbarFilters{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+}
+
+
+.navbarFilter{
+    border-radius: 9999px;
+    height: 75%;
+    border: none;
+    box-sizing: border-box;
+    padding-left: 8px;
+    padding-right: 8px;
+    width: 20%;
+}
+
+
+.navbarInputPrice{
+    width: 15%;
+}
+
+
+.navbarResearch{
+    border-radius: 99px 0 0 99px;
+    height: 75%;
+    border: none;
+    box-sizing: border-box;
+
+    padding-left: 5%;
+
+}
+
+
+
+
+.navbarSearchButton{
+    border: none;
+    border-radius: 0 99px 99px 0;
+    height: 75%;
+    box-sizing: border-box;
+}
+
+svg{
+    transform: scale(1);
+    transition: transform 0.3s;
+}
+.navbarSearchButton:hover{
+    svg{
+        transform: scale(1.05);
+        transition: transform 0.3s;
+    }
+}
+
+
 
 .navbarCategories{
     background-color: none;
@@ -107,12 +192,14 @@ body{
     user-select: none;
     cursor: pointer;
     align-self: flex-start;
-    height: 8vh;
+    height: 7vh;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 0.5vh;
+    transition: 0.3s all;
 }
+
 
 .navbarIcons{
     width: 100%;
@@ -147,3 +234,206 @@ body{
 }
 
 
+
+/* Conteneur principal */
+.article-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    font-family: "Jaldi-Regular";
+}
+
+/* Carte pour chaque article */
+.article-card {
+    background: #ffffff;
+    width: 320px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out;
+}
+
+.article-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Image d'article */
+.article-image {
+    width: 100%;
+    height: 180px;
+    background-color: #ddd;
+}
+
+/* Contenu de la carte */
+.article-content {
+    padding: 15px;
+}
+
+.article-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.article-description {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.article-price {
+    font-size: 18px;
+    color: #2a9d8f;
+    font-weight: bold;
+}
+
+.article-stock {
+    font-size: 14px;
+    color: #999;
+    margin-bottom: 10px;
+}
+
+/* Bouton */
+.article-btn {
+    display: inline-block;
+    padding: 10px 15px;
+    background: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background 0.3s ease-in-out;
+}
+
+.article-btn:hover {
+    background: #0056b3;
+}
+
+
+.article-image-container {
+    width: 100%;
+    height: 180px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Image normale */
+.article-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/* Image de remplacement si l'article n'a pas d'image */
+.article-image-default {
+    width: 100%;
+    height: 180px;
+    background-color: #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    font-size: 14px;
+    border-radius: 8px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border: 1px solid #ccc;
+}
+
+
+
+
+
+
+
+
+
+
+/* 🌟 Conteneur principal */
+.product-detail-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* 🌟 Titre */
+.product-title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* 🌟 Conteneur image */
+.product-image-container {
+    width: 100%;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f5f5f5;
+    border-radius: 8px;
+}
+
+/* 🌟 Image du produit */
+.product-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+/* 🌟 Image par défaut */
+.product-image-default {
+    width: 300px;
+    height: 300px;
+    background-color: #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+/* 🌟 Infos produit */
+.product-info {
+    margin-top: 20px;
+    text-align: left;
+    font-size: 18px;
+}
+
+.product-info p {
+    margin-bottom: 10px;
+}
+
+.product-info strong {
+    color: #444;
+}
+
+/* 🌟 Bouton Retour */
+.product-btn-back {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 15px;
+    background: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.product-btn-back:hover {
+    background: #0056b3;
+}

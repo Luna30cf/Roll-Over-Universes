@@ -1,16 +1,30 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil{% endblock %}
+
 
 {% block content %}
+		<link rel="stylesheet" href="{{ asset('assets/css/home.css') }}?v={{ random() }}">
+
+    
+    <section class="homeBanner">
+        <h1 class="bannerTitle">Roll Over Universes</h1>
+    </section>
+
+    <section class="homeGameFront">
+        <div class="fi1 frontImage" ></div>
+        <div class="fi2 frontImage" ></div>
+        <div class="fi3 frontImage" ></div>
+        <div class="fi4 frontImage" ></div>
+    </section>
 
 
-    <h1>Bienvenue sur notre site</h1>
     <ul>
-        <li><a href="{{ path('product_list') }}">Voir les produits</a></li>
+        <li><a href="{{ path('article_list') }}">Voir les produits</a></li>
         <li><a href="{{ path('cart') }}">Voir mon panier</a></li>
         <li><a href="{{ path('checkout') }}">Aller au paiement</a></li>
         <li><a href="{{ path('payment_confirmation') }}">Vérifier mon paiement</a></li>
         <li><a href="{{ path('account') }}">Gérer mon compte</a></li>
     </ul>
+	<script src="{{ asset('assets/js/banner.js') }}?v={{ 'now'|date('U') }}"></script>
+
 {% endblock %}
