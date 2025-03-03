@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ article.name }} - Détails{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="product-detail-container">
+        <h1 class="product-title">{{ article.name }}</h1>
+
+        <div class="product-image-container">
+            {% if article.cover %}
+                <img src="{{ asset('assets/articleImages/' ~ article.cover) }}" alt="{{ article.name }}" class="product-image">
+            {% else %}
+                <div class="product-image-default">Image Indisponible</div>
+            {% endif %}
+        </div>
+
+        <div class="product-info">
+            <p><strong>Prix :</strong> {{ article.price }} €</p>
+            <p><strong>Stock :</strong> {{ article.itemsStored }}</p>
+            <p><strong>Catégorie :</strong> {{ article.category.name }}</p>
+            <p>{{ article.description }}</p>
+        </div>
+
+        <a href="{{ path('article_list') }}" class="product-btn-back">Retour aux articles</a>
+    </div>
+{% endblock %}

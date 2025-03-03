@@ -1,0 +1,97 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nos Articles
+{% endblock %}
+
+{% block styles %}
+	<link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+{% endblock %}
+
+{% block content %}
+	<h1 style="text-align: center; margin-top: 20px;">Nos Articles</h1>
+
+	<!-- Message si aucun article n'est trouvé -->
+	<p id="noResultsMessage" class="no-results-message" style="display: none; text-align: center; font-size: 18px; color: #666; margin-top: 20px;">
+		Aucun article ne correspond à votre recherche.
+	</p>
+
+	<!-- Conteneur des articles -->
+	<div class="article-container">
+		{% for article in articles %}
+			<div
+				class="article-card" data-name="{{ article.name }}" data-price="{{ article.price }}" data-category="{{ article.category.name }}">
+
+				<!-- Gestion de l'image -->
+				<div class="article-image-container">
+					{% if article.cover %}
+						<img src="{{ asset('assets/articleImages/' ~ article.cover) }}" alt="{{ article.name }}" class="article-image">
+					{% else %}
+						<div class="article-image-default">
+							<p>Image Indisponible</p>
+						</div>
+					{% endif %}
+				</div>
+
+				<!-- Contenu de l'article -->
+				<div class="article-content">
+					<h2 class="article-title">{{ article.name }}</h2>
+					<p class="article-description">{{ article.description }}</p>
+					<p class="article-price">{{ article.price }}
+						€</p>
+
+
+					<p class="article-stock">Stock :
+						{{ article.itemsStored }}</p>
+					<p class="article-category">
+						<strong>Catégorie :</strong>
+						{{ article.category.name }}</p>
+
+					<div class="article-actions">
+						<a href="{{ path('article_show', { 'id': article.id }) }}" class="article-btn">Voir l'article</a>
+						<a href="{{ path('cart_add', { 'id': article.id }) }}" class="article-btn add-to-cart">Ajouter au Panier</a>
+					</div>
+
+
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+{% endblock %}
+
+{% block javascripts %}
+	<script src="{{ asset('assets/js/navbar.js') }}?v={{ 'now'|date('U') }}"></script>
+
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
+const params = new URLSearchParams(window.location.search);
+if (params.has("search")) 
+document.getElementById("search").value = params.get("search");
+
+
+if (params.has("category")) 
+document.getElementById("filterCategory").value = params.get("category");
+
+
+if (params.has("sort")) 
+document.getElementById("sortPrice").value = params.get("sort");
+
+
+if (params.has("minPrice")) 
+document.getElementById("minPrice").value = params.get("minPrice");
+
+
+if (params.has("maxPrice")) 
+document.getElementById("maxPrice").value = params.get("maxPrice");
+
+
+
+// Déclenche le filtrage après avoir appliqué les valeurs récupérées
+const event = new Event("change");
+document.getElementById("search").dispatchEvent(event);
+document.getElementById("filterCategory").dispatchEvent(event);
+document.getElementById("sortPrice").dispatchEvent(event);
+document.getElementById("minPrice").dispatchEvent(event);
+document.getElementById("maxPrice").dispatchEvent(event);
+});
+	</script>
+{% endblock %}

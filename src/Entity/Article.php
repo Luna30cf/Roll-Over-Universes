@@ -50,9 +50,11 @@ class Article
 
     /**
      * @var Collection<int, User>
-     */
+    */
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'Liked')]
     private Collection $Liked;
+
+    
 
     public function __construct()
     {
@@ -82,12 +84,12 @@ class Article
         return $this->Cover;
     }
 
-    public function setCover(string $Cover): static
+    public function setCover(?string $Cover): static
     {
         $this->Cover = $Cover;
-
         return $this;
     }
+    
 
     public function getDescription(): ?string
     {
@@ -208,4 +210,6 @@ class Article
 
         return $this;
     }
+
+    
 }

@@ -1,0 +1,59 @@
+<section class="navbar">
+	<a class="navbarLogo" href="{{ path('homepage') }}"></a>
+
+	<div
+		class="navbarMenu">
+		<!-- Formulaire de recherche et filtres -->
+		<form
+			id="searchForm" class="navbarSearchContainer">
+			<!-- Barre de recherche intégrée à l'icône -->
+			<div class="navbarSearchIcon">
+				<input type="text" id="search" name="search" placeholder="Rechercher..." class="navbarSearchBar navbarResearch">
+				<button type="submit" class="navbarSearchButton">
+					<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewbox="0 0 36 36" fill="none" class="SearchIconAnim">
+						<path d="M36 32.8846L25.2623 22.1452C26.9927 19.7672 27.9236 16.9013 27.9208 13.9604C27.9208 6.26279 21.658 0 13.9604 0C6.26279 0 0 6.26279 0 13.9604C0 21.658 6.26279 27.9208 13.9604 27.9208C16.9013 27.9236 19.7672 26.9927 22.1452 25.2623L32.8846 36L36 32.8846ZM13.9604 23.5116C12.0711 23.5118 10.2242 22.9517 8.65319 21.9022C7.08222 20.8526 5.85777 19.3608 5.13468 17.6154C4.4116 15.8699 4.22236 13.9492 4.5909 12.0962C4.95945 10.2432 5.86921 8.54109 7.20515 7.20515C8.54109 5.86921 10.2432 4.95945 12.0962 4.5909C13.9492 4.22236 15.8699 4.4116 17.6154 5.13468C19.3608 5.85777 20.8526 7.08222 21.9022 8.65319C22.9517 10.2242 23.5118 12.0711 23.5116 13.9604C23.5087 16.4926 22.5014 18.9203 20.7108 20.7108C18.9203 22.5014 16.4926 23.5087 13.9604 23.5116Z" fill="black"/>
+					</svg>
+				</button>
+			</div>
+
+			<!-- Filtres et tri -->
+			<div class="navbarFilters">
+				<select id="filterCategory" name="category" class="navbarDropdown navbarFilter">
+					<option value="">Toutes les catégories</option>
+					{% if articles is defined %}
+						{% for article in articles %}
+							<option value="{{ article.category.name }}">{{ article.category.name }}</option>
+						{% endfor %}
+					{% endif %}
+				</select>
+
+				<select id="sortPrice" name="sort" class="navbarDropdown navbarFilter">
+					<option value="">Trier par prix</option>
+					<option value="asc">Prix croissant</option>
+					<option value="desc">Prix décroissant</option>
+				</select>
+
+				<input type="number" id="minPrice" name="minPrice" placeholder="Prix min" class="navbarInputPrice navbarFilter">
+				<input type="number" id="maxPrice" name="maxPrice" placeholder="Prix max" class="navbarInputPrice navbarFilter">
+			</div>
+		</form>
+	</div>
+
+	<div class="navbarIcons">
+		<div class="iconsContainer">
+			<a class="accountIcon navbarIcon" href="{{ path('app_login') }}">
+				<svg class="accountIconSVG iconSVG" width="44" height="50" viewbox="0 0 44 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<circle cx="22" cy="10" r="10" fill="white"/>
+					<path fill-rule="evenodd" clip-rule="evenodd" d="M0.415771 36.9611C4.44899 29.257 12.5199 24 21.8187 24C31.1487 24 39.2426 29.2924 43.2621 37.0389C39.2289 44.743 31.158 50 21.8592 50C12.5292 50 4.43526 44.7076 0.415771 36.9611Z" fill="white"/>
+				</svg>
+
+			</a>
+
+			<a class="cartIcon navbarIcon" href="{{ path('cart_index') }}">
+				<svg class="cartIconSVG iconSVG" width="50" height="37" viewbox="0 0 50 37" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path fill-rule="evenodd" clip-rule="evenodd" d="M12.0979 11.859L15.6147 2.68369C16.2359 1.06283 17.7402 0 19.4129 0H30.5871C32.2598 0 33.7641 1.06283 34.3852 2.68369L37.9019 11.859H44.9154L45.6165 10.0294C46.0826 8.81319 47.4053 8.22161 48.5708 8.70809C49.7362 9.19459 50.303 10.5749 49.8369 11.7911L41.2032 34.3163C40.5821 35.9372 39.0778 37 37.4051 37H12.5949C10.9222 37 9.41792 35.9372 8.79669 34.3163L0.163154 11.7911C-0.303002 10.5749 0.263838 9.19459 1.42923 8.70809C2.59461 8.22161 3.91724 8.81319 4.38339 10.0294L5.08464 11.859H12.0979ZM13.5837 16.6026H6.90278L12.9026 32.2564H37.0974L43.0973 16.6026H36.4163C36.3813 16.6034 36.3465 16.6034 36.3117 16.6026H13.6882C13.6534 16.6034 13.6186 16.6034 13.5837 16.6026ZM33.0066 11.859L30.2794 4.74359H19.7206L16.9934 11.859H33.0066Z" fill="white"/>
+				</svg>
+			</a>
+		</div>
+	</div>
+</section>

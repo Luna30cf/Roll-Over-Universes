@@ -3,9 +3,10 @@
 namespace App\Entity;
 
 use App\Repository\CartRepository;
+use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
+use App\Entity\User;
 
 #[ORM\Entity(repositoryClass: CartRepository::class)]
 class Cart
@@ -15,22 +16,16 @@ class Cart
     #[ORM\Column]
     private ?int $id = null;
 
-    /**
-     * @var Collection<int, User>
-     */
-    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'Carts')]
-    private Collection $User;
+    #[ORM\OneToOne(targetEntity: User::class, inversedBy: 'cart')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
 
-    /**
-     * @var Collection<int, Article>
-     */
-    #[ORM\ManyToMany(targetEntity: Article::class)]
-    private Collection $Product;
+    #[ORM\OneToMany(mappedBy: 'cart', targetEntity: CartArticle::class, cascade: ['persist', 'remove'])]
+    private Collection $cartArticles;
 
     public function __construct()
     {
-        $this->User = new ArrayCollection();
-        $this->Product = new ArrayCollection();
+        $this->cartArticles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -38,51 +33,38 @@ class Cart
         return $this->id;
     }
 
-    /**
-     * @return Collection<int, User>
-     */
-    public function getUser(): Collection
+    public function getUser(): ?User
     {
-        return $this->User;
+        return $this->user;
     }
 
-    public function addUser(User $user): static
+    public function setUser(User $user): self
     {
-        if (!$this->User->contains($user)) {
-            $this->User->add($user);
+        $this->user = $user;
+        return $this;
+    }
+
+    public function getCartArticles(): Collection
+    {
+        return $this->cartArticles;
+    }
+
+    public function addCartArticle(CartArticle $cartArticle): self
+    {
+        if (!$this->cartArticles->contains($cartArticle)) {
+            $this->cartArticles->add($cartArticle);
+            $cartArticle->setCart($this);
         }
-
         return $this;
     }
 
-    public function removeUser(User $user): static
+    public function removeCartArticle(CartArticle $cartArticle): self
     {
-        $this->User->removeElement($user);
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Article>
-     */
-    public function getProduct(): Collection
-    {
-        return $this->Product;
-    }
-
-    public function addProduct(Article $product): static
-    {
-        if (!$this->Product->contains($product)) {
-            $this->Product->add($product);
+        if ($this->cartArticles->removeElement($cartArticle)) {
+            if ($cartArticle->getCart() === $this) {
+                $cartArticle->setCart(null);
+            }
         }
-
-        return $this;
-    }
-
-    public function removeProduct(Article $product): static
-    {
-        $this->Product->removeElement($product);
-
         return $this;
     }
 }
