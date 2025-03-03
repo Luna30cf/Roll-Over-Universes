@@ -15,7 +15,7 @@
     font-family: "LilitaOne";
     color: white;
 
-    background: url("/images/Banner3.png");
+    background: url("/images/banner/Banner3.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -65,21 +65,21 @@
 
 
 .fi1{
-    background: url("../../images/front1.png");
+    background: url("../../images/front/front1.png");
     background-size: cover;
 }
 .fi2{
-    background: url("../../images/front2-alt.png");
+    background: url("../../images/front/front2-alt.png");
     background-size: cover;
     background-position: 0 -10vh;
 }
 .fi3{
-    background: url("../../images/front3.png");
+    background: url("../../images/front/front3.png");
     background-size: cover;
     background-position: 0 -10vh;
 }
 .fi4{
-    background: url("../../images/front4.png");
+    background: url("../../images/front/front4.png");
     background-size: cover;
 }
 
