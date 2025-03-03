@@ -6,7 +6,6 @@
 		<link rel="stylesheet" href="{{ asset('assets/css/styles.css') }}?v={{ random() }}">
 
 
-
 		<title>
 			{% block title %}Mon Site
 			{% endblock %}
@@ -15,18 +14,23 @@
 	<body>
 
 		{% block navbar %}
-			{% include 'base/navbar.html.twig' %}
+			{% include 'base/navbar.html.twig' with { 'articles': articles|default([]) } %}
+
 		{% endblock %}
+		{% block javascripts %}
+			<script src="{{ asset('assets/js/navbar.js') }}?v={{ random() }}"></script>
+		{% endblock %}
+
 		{# <nav>
-		        <ul>
-		            <li><a href="{{ path('homepage') }}">Accueil</a></li>
-		            <li><a href="{{ path('product_list') }}">Produits</a></li>
-		            <li><a href="{{ path('cart') }}">Panier</a></li>
-		            <li><a href="{{ path('checkout') }}">Paiement</a></li>
-		            <li><a href="{{ path('payment_confirmation') }}">Confirmation Paiement</a></li>
-		            <li><a href="{{ path('account') }}">Compte</a></li>
-		        </ul>
-		    </nav> #}
+				        <ul>
+				            <li><a href="{{ path('homepage') }}">Accueil</a></li>
+				            <li><a href="{{ path('product_list') }}">Produits</a></li>
+				            <li><a href="{{ path('cart') }}">Panier</a></li>
+				            <li><a href="{{ path('checkout') }}">Paiement</a></li>
+				            <li><a href="{{ path('payment_confirmation') }}">Confirmation Paiement</a></li>
+				            <li><a href="{{ path('account') }}">Compte</a></li>
+				        </ul>
+				    </nav> #}
 
 		<main>
 			{% block content %}{% endblock %}

@@ -7,10 +7,8 @@ setInterval(() => {
     banner.style.backgroundSize="cover"
     banner.style.backgroundPosition="center"
     banner.style.backgroundRepeat="no-repeat"
-    console.log("ok")
     i++
     if (tab.length == i){
-        console.log(tab.length,i)
         i=0
     }
 }, 3000);

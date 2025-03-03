@@ -57,6 +57,8 @@ body{
     grid-template-columns: 23fr 50fr 23fr;
     position: relative;
     z-index: 9999;
+
+
 }
 
 
@@ -80,8 +82,9 @@ body{
     margin: 7.75vh 0 7.75vh 0;
     border-radius: 40px;
 
-    display: grid;
-    grid-template-columns: 7fr 92fr;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     padding: 0.5vh;
 
     box-sizing: border-box;
@@ -96,17 +99,81 @@ body{
 
 
 .navbarSearchIcon{
-    background-color: rgb(255, 255, 255);
-    border-radius: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
     align-self: flex-start;
 
-    width: 7.5vh;
-    height: 7.5vh;
+    height: 100%;
 
 }
+
+
+.navbarSearchContainer{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+
+.navbarFilters{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+}
+
+
+.navbarFilter{
+    border-radius: 9999px;
+    height: 75%;
+    border: none;
+    box-sizing: border-box;
+    padding-left: 8px;
+    padding-right: 8px;
+    width: 20%;
+}
+
+
+.navbarInputPrice{
+    width: 15%;
+}
+
+
+.navbarResearch{
+    border-radius: 99px 0 0 99px;
+    height: 75%;
+    border: none;
+    box-sizing: border-box;
+
+    padding-left: 5%;
+
+}
+
+
+
+
+.navbarSearchButton{
+    border: none;
+    border-radius: 0 99px 99px 0;
+    height: 75%;
+    box-sizing: border-box;
+}
+
+svg{
+    transform: scale(1);
+    transition: transform 0.3s;
+}
+.navbarSearchButton:hover{
+    svg{
+        transform: scale(1.05);
+        transition: transform 0.3s;
+    }
+}
+
+
 
 .navbarCategories{
     background-color: none;
@@ -174,6 +241,7 @@ body{
     flex-wrap: wrap;
     justify-content: center;
     gap: 20px;
+    font-family: "Jaldi-Regular";
 }
 
 /* Carte pour chaque article */
@@ -242,14 +310,23 @@ body{
 }
 
 
-.article-image {
+.article-image-container {
     width: 100%;
     height: 180px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Image normale */
+.article-image {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
     border-radius: 8px;
 }
 
-/* Style pour l'image par défaut */
+/* Image de remplacement si l'article n'a pas d'image */
 .article-image-default {
     width: 100%;
     height: 180px;
@@ -261,4 +338,6 @@ body{
     font-size: 14px;
     border-radius: 8px;
     font-weight: bold;
+    text-transform: uppercase;
+    border: 1px solid #ccc;
 }

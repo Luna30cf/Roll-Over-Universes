@@ -1,16 +1,16 @@
 <?php
 
+
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Response;
 
-class PagesController extends AbstractController
+class PagesController extends BaseController
 {
     #[Route('/', name: 'homepage')]
-    public function homepage(): Response
+    public function home(): Response
     {
-        return $this->render('pages/homepage.html.twig');
+        return $this->renderWithNavbar('pages/homepage.html.twig');
     }
 }
