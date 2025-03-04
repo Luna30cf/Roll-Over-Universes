@@ -2,10 +2,8 @@
 
 {% block title %}Ajouter un Produit
 {% endblock %}
-	{% block styles %}
-		<link rel="stylesheet" href="{{ asset('assets/css/product_form.css') }}?v={{ random() }}">
-	{% endblock %}
-{% block content %}
+	{% block content %}
+	<link rel="stylesheet" href="{{ asset('assets/css/product_form.css') }}?v={{ random() }}">
 	<div class="form-container">
 		<h1>Ajouter un Nouveau Produit</h1>
 		{{ form_start(form) }}
