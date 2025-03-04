@@ -8,12 +8,16 @@
 {% endblock %}
 
 {% block content %}
+
+	<a class="newProductButton" href="{{ path('product_new') }}">Ajouter des produits</a>
+
 	<h1 style="text-align: center; margin-top: 20px;">Nos Articles</h1>
 
 	<!-- Message si aucun article n'est trouvé -->
 	<p id="noResultsMessage" class="no-results-message" style="display: none; text-align: center; font-size: 18px; color: #666; margin-top: 20px;">
 		Aucun article ne correspond à votre recherche.
 	</p>
+	
 
 	<!-- Conteneur des articles -->
 	<div class="article-container">
