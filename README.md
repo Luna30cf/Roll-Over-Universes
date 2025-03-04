@@ -56,7 +56,7 @@ php bin/console doctrine:migrations:migrate
 
 ⚠️ Créer un fichier .env.local à la racine du projet:
 ```yaml
-DATABASE_URL="sqlite:///%kernel.project_dir%/'chemin où va se créer la db'"
+Set-Content .env.local 'DATABASE_URL="sqlite:///%kernel.project_dir%/chemin où va se créer la DB"'
 ```
 
 ### 3. Lancer le serveur
