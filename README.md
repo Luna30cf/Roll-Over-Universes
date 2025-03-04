@@ -8,15 +8,14 @@
 - [Description](#description)
 - [Objectif](#objectif)
     - [Fonctionnalités principales](#fonctionnalités-principales-)
-- [Répartition](#répartition)
-- [Liens externes](#liens-externes)
-- [Crédits](#crédits)
 - [Fonctionnement](#fonctionnement)
   - [1. Installer les dépendances](#1-installer-les-dépendances)
   - [2. Mettre à jour la base de données](#2-mettre-à-jour-la-base-de-données)
   - [3. Lancer le serveur](#3-lancer-le-serveur)
   - [4. Autres commandes utiles](#4-autres-commandes-utiles)
-
+- [Répartition](#répartition)
+- [Liens externes](#liens-externes)
+- [Crédits](#crédits)
 
 
 
@@ -36,7 +35,46 @@ L'objectif principal de ce projet est de créer un site e-commerce complet avec 
 - Authentification sécurisée avec Symfony.
 - Lien avec une base de données
 
-## III - Répartition
+## III - Fonctionnement
+
+### 1. Installer les dépendances
+
+Pour installer les dépendances du projet, utilisez Composer :
+```bash
+composer install
+composer require symfony/maker-bundle --dev
+composer require --dev doctrine/doctrine-fixtures-bundle
+```
+
+### 2. Mettre à jour la base de données
+
+Créer la database avec les migrations :
+```bash
+php bin/console doctrine:database:create
+php bin/console doctrine:migrations:migrate
+```
+
+⚠️ Créer un fichier .env.local à la racine du projet:
+```yaml
+DATABASE_URL="sqlite:///%kernel.project_dir%/'chemin où va se créer la db'"
+```
+
+### 3. Lancer le serveur
+
+localhost:8000:
+```bash
+symfony server:start
+```
+
+### 4. Autres commandes utiles
+
+Vider le cache du site:
+```bash
+php bin/console cache:clear
+```
+
+
+## IV - Répartition
 
 ### Structure de travail :
 1. **Front-end :**  
