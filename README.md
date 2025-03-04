@@ -129,7 +129,7 @@ php bin/console cache:clear
     - ***Lucas***
 
 ## Liens externes
-- [lien vers la présentation]()
+- [lien vers la présentation](https://docs.google.com/presentation/d/11zSmYYjIhbzuo_pQXSzKsb_Ncbj48xAk4mlYSbPlrXM/edit?usp=sharing)
 - [lien vers le figma](https://www.figma.com/design/WiNXb5TW2q4FstjTS4g829/Roll-over-universes?node-id=0-1&p=f&t=0DBxFzxPo484LGY3-0)
 - [Lien vers le trello](https://trello.com/b/njH6ijAC/roll-over-universes)
 - [Lien Google Docs](https://docs.google.com/document/d/1Gri2B37_86I-WmdAy71K5zFHDuE8KI4VkV3OZ4ea0r4/edit?usp=sharing)
