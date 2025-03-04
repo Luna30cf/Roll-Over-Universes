@@ -9,12 +9,20 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;  // Import de la classe Security
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-
 
 class SecurityController extends AbstractController
 {
+    // Injection du service Security via le constructeur
+    private $security;
+
+    public function __construct(Security $security)
+    {
+        $this->security = $security;
+    }
+
     #[Route('/login', name: 'app_login', methods: ['GET', 'POST'])]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
@@ -24,6 +32,25 @@ class SecurityController extends AbstractController
 
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
+
+        // Vérification si l'utilisateur doit être admin après soumission du formulaire de login
+        if ($lastUsername === 'admin@rolluniverse.com' && !$error) {
+            // Récupérer l'utilisateur actuellement authentifié
+            $user = $this->security->getUser();
+            
+            // Si l'utilisateur est admin, on lui attribue le rôle 'ROLE_ADMIN'
+            if ($user) {
+                // On vérifie si le mot de passe est correct (ici, tu compares manuellement, mais normalement, Symfony s'en occupe)
+                $password = 'ROUlilk';
+                if (password_verify($password, $user->getPassword())) { // Comparer les mots de passe hachés
+                    // Ajouter le rôle admin si l'email et le mot de passe sont corrects
+                    $user->setRoles(['ROLE_ADMIN']);
+                    $this->getDoctrine()->getManager()->persist($user);
+                    $this->getDoctrine()->getManager()->flush();
+                }
+            }
+            return $this->redirectToRoute('homepage');
+        }
 
         return $this->render('security/login.html.twig', [
             'last_username' => $lastUsername,
@@ -67,4 +94,4 @@ class SecurityController extends AbstractController
     {
         // Le logout est géré automatiquement par Symfony
     }
-} 
+}
